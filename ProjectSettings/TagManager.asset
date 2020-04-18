@@ -8,6 +8,7 @@ TagManager:
   - grid
   - UI
   - monster
+  - wall
   layers:
   - Default
   - TransparentFX
