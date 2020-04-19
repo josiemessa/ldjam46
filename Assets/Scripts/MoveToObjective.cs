@@ -10,7 +10,6 @@ public class MoveToObjective : MonoBehaviour
     public string direction;
 
     private float elapsedTime;
-    private bool once = false;
 
     void Update()
     {
@@ -41,7 +40,6 @@ public class MoveToObjective : MonoBehaviour
             if (d == 0)
             {
                 // we're done (should have collided but hey)
-                Debug.Log("arrived x axis");
                 return;
             }
         
@@ -49,7 +47,6 @@ public class MoveToObjective : MonoBehaviour
             // to the destination
             if (d < 0.1)
             {
-                Debug.Log("setting x axis");
                 transform.position = new Vector2(destination.position.x, transform.position.y);
                 return;
             }
@@ -59,7 +56,6 @@ public class MoveToObjective : MonoBehaviour
                 if (direction != "right")
                 {
                     direction = "right";
-                    Debug.Log("Rotating to look right");
                     transform.up = Vector3.right;
                 }
             }
@@ -68,7 +64,6 @@ public class MoveToObjective : MonoBehaviour
                 if (direction != "left")
                 {
                     direction = "left";
-                    Debug.Log("Rotating to look left");
                     transform.up = Vector3.left;
                 }
             }
@@ -80,7 +75,6 @@ public class MoveToObjective : MonoBehaviour
             // if we're about to go past the destination axis value then just set our axis there.
             if (d < 0.1)
             {
-                Debug.Log("setting y axis");
                 transform.position = new Vector2(transform.position.x, destination.position.y);
                 return;
             }
@@ -90,7 +84,6 @@ public class MoveToObjective : MonoBehaviour
                 if (direction != "up")
                 {
                     direction = "up";
-                    Debug.Log("Rotating to look up");
                     transform.up = Vector3.up;
                 }
             }
@@ -98,7 +91,6 @@ public class MoveToObjective : MonoBehaviour
             {
                 if (direction != "down")
                 {
-                    Debug.Log("Rotating to look down");
                     transform.up = Vector3.down;
                 }
             }

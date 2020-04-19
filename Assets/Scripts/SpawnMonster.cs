@@ -8,9 +8,10 @@ public class SpawnMonster : MonoBehaviour
     public GameObject player;
     public float spawnCooldown = 1f;
     public float amountToSpawn = 1f;
-    public float spawnDistanceMax = 0f;
     public float spawnDistanceMin = 0f;
     public float maxAmount = 10f;
+
+    public Rect boundary;
 
     // TODO get this to read from the gameObject rather than the number spawned
     // when player can kill monsters
@@ -18,26 +19,30 @@ public class SpawnMonster : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating("Spawn", 0, spawnCooldown);    
+        boundary = gameObject.GetComponentInChildren<ScreenLayout>().OuterArea;
+        Debug.Log(boundary);
+        InvokeRepeating("Spawn", 0, spawnCooldown);
     }
 
     void Spawn()
     {
         if (!PersistentManager.Instance.Running)
-        {    
+        {
             return;
         }
+
         if (totalSpawned >= maxAmount)
         {
             return;
         }
+
         int amountSpawned = 0;
         while (amountSpawned < amountToSpawn)
         {
             Vector2 spawnPos = calculatePosition();
-            GameObject spawnedMonster = Instantiate(monster,spawnPos , Quaternion.identity);
+            GameObject spawnedMonster = Instantiate(monster, spawnPos, Quaternion.identity);
             spawnedMonster.GetComponent<MonsterMove>().playerLoc = player.transform;
-            
+
             amountSpawned++;
         }
 
@@ -46,19 +51,17 @@ public class SpawnMonster : MonoBehaviour
 
     Vector2 calculatePosition()
     {
-        // This has to be Vector3 otherwise it gets upset...
-        Vector3 offset = (Random.insideUnitCircle * spawnDistanceMax);
-        Vector2 spawnPosition = player.transform.position + offset;
-        
-        // lock spawn position to inside game boundary
-        spawnPosition.x = Mathf.Min(spawnPosition.x, 16);
-        spawnPosition.x = Mathf.Max(spawnPosition.x, -16);
-        spawnPosition.y = Mathf.Min(spawnPosition.y, 9);
-        spawnPosition.y = Mathf.Max(spawnPosition.y, -9);
-
-        if (Vector2.Distance(spawnPosition, player.transform.position) < spawnDistanceMin)
+        Vector2 spawnPosition;
+        float r = Random.value;
+        if (r > 0.5)
         {
-            return calculatePosition();
+            spawnPosition.x = Random.Range(boundary.xMin, boundary.xMax);
+            spawnPosition.y = player.transform.position.y > 0 ? boundary.yMin : boundary.yMax;
+        }
+        else
+        {
+            spawnPosition.y = Random.Range(boundary.yMin, boundary.yMax);
+            spawnPosition.x = player.transform.position.x > 0 ? boundary.xMin : boundary.xMax;
         }
         return spawnPosition;
     }
