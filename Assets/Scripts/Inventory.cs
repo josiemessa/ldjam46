@@ -14,11 +14,13 @@ public class Inventory : MonoBehaviour
     public Item[] EnabledItems;
 
     private Rect boundary;
+    private Rect innerBoundary;
 
     // Start is called before the first frame update
     void Start()
     {
         boundary = GameObject.Find("Scripts").GetComponent<ScreenLayout>().OuterArea;
+        innerBoundary = GameObject.Find("Scripts").GetComponent<ScreenLayout>().InnerArea;
         EnabledItems = new[] {Objective};
         if (PersistentManager.Instance.level >= Wall.LevelThreshold)
         {
@@ -69,6 +71,12 @@ public class Inventory : MonoBehaviour
         if (!boundary.Contains(worldPosition))
         {
             Debug.Log("out of bounds click");
+            return;
+        }
+
+        if (ActiveItem == Objective && innerBoundary.Contains(worldPosition))
+        {
+            Debug.Log("can't place objective here");
             return;
         }
 
