@@ -545,7 +545,7 @@ GameObject:
   - component: {fileID: 474691050}
   m_Layer: 0
   m_Name: Grid
-  m_TagString: Untagged
+  m_TagString: grid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -803,7 +803,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  arrived: 0
 --- !u!58 &620625386
 CircleCollider2D:
   m_ObjectHideFlags: 0

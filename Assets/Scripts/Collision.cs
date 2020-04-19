@@ -5,16 +5,25 @@ using UnityEngine;
 public class Collision : MonoBehaviour
 {    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Player")
+        switch (other.gameObject.tag)
         {
-            if (tag == "objective")
-            {
-                MoveToObjective m = other.gameObject.GetComponent<MoveToObjective>();
-                m.arrived = true;
-                PersistentManager.Instance.Win = true;
-            }
-            PersistentManager.Instance.Running = false;
-            Debug.Log("finishing");
+            // Player achieving objective or hitting a monster
+            case "Player":
+                if (tag == "objective")
+                {
+                    PersistentManager.Instance.Win = true;
+                }
+
+                PersistentManager.Instance.Running = false;
+                Debug.Log("finishing");
+                break;
+            case "wall":
+                if (tag == "monster")
+                {
+                    // affect how the monster walks.
+                }
+
+                break;
         }
     }
 }

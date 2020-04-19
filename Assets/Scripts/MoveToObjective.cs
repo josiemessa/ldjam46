@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class MoveToObjective : MonoBehaviour
 {
     public float speed = 1;
-    public bool arrived;
 
     private float elapsedTime;
 
@@ -17,7 +16,7 @@ public class MoveToObjective : MonoBehaviour
             return;
         }
         GameObject[] objectives = GameObject.FindGameObjectsWithTag("objective");
-        if (objectives.Length == 0 || arrived)
+        if (objectives.Length == 0)
         {
             return;
         }

@@ -37,7 +37,7 @@ public class SpawnMonster : MonoBehaviour
             Vector2 spawnPos = calculatePosition();
             Debug.Log("Monster " + amountSpawned + "spawning at "+spawnPos);
             GameObject spawnedMonster = Instantiate(monster,spawnPos , Quaternion.identity);
-            spawnedMonster.GetComponent<AutoMove>().playerLoc = player.transform;
+            spawnedMonster.GetComponent<MonsterMove>().playerLoc = player.transform;
             
             amountSpawned++;
         }

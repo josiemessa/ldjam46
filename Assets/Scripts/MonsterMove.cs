@@ -2,10 +2,10 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class AutoMove : MonoBehaviour
+public class MonsterMove : MonoBehaviour
 {
     public float speed = 1;
-    public Transform playerLoc;
+    public Transform playerLoc; // gets assigned during spawn
 
     private bool yLock = false;
 

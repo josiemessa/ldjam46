@@ -33,9 +33,10 @@ public class DrawWalls : MonoBehaviour
             RaycastHit2D hitData = Physics2D.Raycast(new Vector2(worldPosition.x, worldPosition.y), Vector2.zero, 0);
             if (hitData)
             {
-                // don't add a wall if we have one here already
-                if (hitData.transform.gameObject.CompareTag("wall"))
+                // don't add a wall if we have an object here
+                if (!hitData.transform.gameObject.CompareTag("grid"))
                 {
+                    Debug.Log("object already in this spot, ignoring click");
                     return;
                 }
                 // Clear the z position of the mouse
