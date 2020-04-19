@@ -7,7 +7,7 @@ public class PersistentManager : MonoBehaviour
     public static PersistentManager Instance { get; private set; }
     public bool Running = true;
     public bool Win;
-    public float level = 0;
+    public float level = 1;
 
     private void OnEnable()
     {
@@ -19,9 +19,9 @@ public class PersistentManager : MonoBehaviour
             // {
             //     return;
             // }
-            SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.activeSceneChanged += OnSceneChanged;
 
-            Running = true;
+            Running = false;
             Win = false;
         }
         else
@@ -30,14 +30,15 @@ public class PersistentManager : MonoBehaviour
         }
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    void OnSceneChanged(Scene current, Scene next)
     {
-        if (SceneManager.GetActiveScene().name == "IntroScene")
+        string name = next.name;
+        if (name == "IntroScene")
         {
             return;
         }
         level++;
-        Running = true;
+        Running = false;
         Win = false;
     }
 

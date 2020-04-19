@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class MonsterMove : MonoBehaviour
@@ -17,19 +18,16 @@ public class MonsterMove : MonoBehaviour
     private void Start()
     {
         myPos = transform.position;
-        Debug.Log("player pos"+playerLoc.position);
-        Debug.Log("monster pos"+transform.position);
         SetDirection(playerLoc.position, true);
     }
 
     void Update()
     {
         myPos = transform.position;
-        if (!PersistentManager.Instance.Running)
+        if (SceneManager.GetActiveScene().name == "MainScene" && !PersistentManager.Instance.Running)
         {
             return;
         }
-
         if (elapsedFrames > RotationInterval)
         {
             SetDirection(playerLoc.position, false);
@@ -39,7 +37,6 @@ public class MonsterMove : MonoBehaviour
         elapsedFrames++;
 
         transform.Translate(Vector3.up * (speed * Time.deltaTime));
-        Debug.Log(direction);
     }
 
     public void SetDirection(Vector3 destinationPos, bool init)
@@ -55,10 +52,7 @@ public class MonsterMove : MonoBehaviour
         
         if (Mathf.Abs(yDistance - xDistance) < 1 && !init)
         {
-            Debug.Log("player pos"+destinationPos);
-            Debug.Log("monster pos"+myPos);
             // this causes the monster to start rotating every other frame, so don't recalculate direction
-            Debug.Log("too close");
             return;
         }
 

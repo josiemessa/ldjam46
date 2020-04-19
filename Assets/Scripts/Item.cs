@@ -1,7 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices.WindowsRuntime;
-using UnityEditor.PackageManager;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Item : MonoBehaviour
@@ -10,6 +7,21 @@ public class Item : MonoBehaviour
     public int Used;
     public int LevelThreshold;
     public GameObject ItemInstance;
-    public Text ItemDisplay;
+    public GameObject ItemDisplay;
 
+    private Text ItemText;
+
+    private void Start()
+    {
+        ItemText = ItemDisplay.GetComponentInChildren<Text>();
+    }
+
+    public void SetText(string t, Color c)
+    {
+        ItemText.text = t;
+        if (c != null)
+        {
+            ItemText.color = c;
+        }
+    }
 }

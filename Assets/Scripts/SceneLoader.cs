@@ -8,13 +8,23 @@ public class SceneLoader : MonoBehaviour
     {
         if (reset)
         {
-            PersistentManager.Instance.SetLevel(0);
+            if (SceneManager.GetActiveScene().name != "IntroScene")
+            {
+                PersistentManager.Instance.SetLevel(0);
+            }
         }
+
+        // SceneManager.GetActiveScene()
         SceneManager.LoadScene("MainScene");
     }
     
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void EndTutorial()
+    {
+        PersistentManager.Instance.Running = true;
     }
 }

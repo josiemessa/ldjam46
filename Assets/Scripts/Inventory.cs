@@ -5,6 +5,7 @@ using System.ComponentModel.Design;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class Inventory : MonoBehaviour
         if (PersistentManager.Instance.level >= Wall.LevelThreshold)
         {
             EnabledItems = new[] {Objective, Wall};
+            Wall.ItemDisplay.gameObject.SetActive(true);
         }
 
         // ActiveItem = EnabledItems[0];
@@ -34,6 +36,10 @@ public class Inventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!PersistentManager.Instance.Running)
+        {
+            return;
+        }
         // manageItem();
         if (Input.GetButtonDown("Fire1"))
         {
@@ -52,11 +58,7 @@ public class Inventory : MonoBehaviour
     void updateUI(Item item)
     {
         int left = item.MaxQuantity - item.Used;
-        item.ItemDisplay.text = String.Format("{0}", left);
-        if (left == 0)
-        {
-            item.ItemDisplay.color = Color.red;
-        }
+        item.SetText(String.Format("{0}", left), Color.red);
     }
 
     // void manageItem()

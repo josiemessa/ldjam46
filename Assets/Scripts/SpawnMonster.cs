@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class SpawnMonster : MonoBehaviour
 {
@@ -16,25 +19,38 @@ public class SpawnMonster : MonoBehaviour
     // TODO get this to read from the gameObject rather than the number spawned
     // when player can kill monsters
     private float totalSpawned = 0f;
+    private float elapsedTime = 0f;
 
     void Start()
     {
         boundary = gameObject.GetComponentInChildren<ScreenLayout>().OuterArea;
-        InvokeRepeating("Spawn", 0, spawnCooldown);
+    }
+
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "MainScene" && !PersistentManager.Instance.Running)
+        {
+            return;
+        }
+
+        if (totalSpawned > 0)
+        {        
+            if (elapsedTime < spawnCooldown)
+            {
+                elapsedTime += Time.deltaTime;
+                return;
+            }
+            if (totalSpawned >= maxAmount)
+            {
+                return;
+            }
+        }
+        
+        Spawn();
     }
 
     void Spawn()
     {
-        if (!PersistentManager.Instance.Running)
-        {
-            return;
-        }
-
-        if (totalSpawned >= maxAmount)
-        {
-            return;
-        }
-
         int amountSpawned = 0;
         while (amountSpawned < amountToSpawn)
         {
