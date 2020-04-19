@@ -6,8 +6,11 @@ using UnityEngine.AI;
 public class MoveToObjective : MonoBehaviour
 {
     public float speed = 1;
+    // TODO make enum
+    public string direction;
 
     private float elapsedTime;
+    private bool once = false;
 
     void Update()
     {
@@ -15,22 +18,65 @@ public class MoveToObjective : MonoBehaviour
         {
             return;
         }
+
         GameObject[] objectives = GameObject.FindGameObjectsWithTag("objective");
+        // don't move unless there's an objective.
         if (objectives.Length == 0)
         {
             return;
         }
 
         Transform destination = objectives[0].transform;
-        move(destination);
+        MoveToDestination(destination);
     }
 
-    // retry will call moveX if cannot move already in line with destination
-    void move(Transform destination)
+    public void MoveToDestination(Transform destination)
     {
+        // figure out where destination is relative to transform on y axis
         float d = Mathf.Abs(transform.position.y - destination.position.y);
-        if (d != 0)
+        if (d == 0)
         {
+            // need to move along the x axis
+            d = Mathf.Abs(transform.position.x - destination.position.x);
+            if (d == 0)
+            {
+                // we're done (should have collided but hey)
+                Debug.Log("arrived x axis");
+                return;
+            }
+        
+            // If we're about to move past our destination, just set the x coordinate
+            // to the destination
+            if (d < 0.1)
+            {
+                Debug.Log("setting x axis");
+                transform.position = new Vector2(destination.position.x, transform.position.y);
+                return;
+            }
+            // Otherwise - turn to look at destination along x axis
+            if (transform.position.x < destination.position.x)
+            {
+                if (direction != "right")
+                {
+                    direction = "right";
+                    Debug.Log("Rotating to look right");
+                    transform.up = Vector3.right;
+                }
+            }
+            else
+            {
+                if (direction != "left")
+                {
+                    direction = "left";
+                    Debug.Log("Rotating to look left");
+                    transform.up = Vector3.left;
+                }
+            }
+        
+        }
+        else
+        {
+            // Need to move along the y axis
             // if we're about to go past the destination axis value then just set our axis there.
             if (d < 0.1)
             {
@@ -39,48 +85,25 @@ public class MoveToObjective : MonoBehaviour
                 return;
             }
 
-            Vector2 ytranslation = Vector2.up;
-            if (transform.position.y > destination.position.y)
+            if (transform.position.y < destination.position.y)
             {
-                Debug.Log("down");
-                ytranslation = Vector2.down;
+                if (direction != "up")
+                {
+                    direction = "up";
+                    Debug.Log("Rotating to look up");
+                    transform.up = Vector3.up;
+                }
             }
             else
             {
-                Debug.Log("up");
+                if (direction != "down")
+                {
+                    Debug.Log("Rotating to look down");
+                    transform.up = Vector3.down;
+                }
             }
-            
-            transform.Translate(ytranslation * (speed * Time.deltaTime));
-            return;
         }
 
-        // if we are already in correct y position, move x
-        d = Mathf.Abs(transform.position.x - destination.position.x);
-        if (d <= 0.1)
-        {
-            Debug.Log("transforming x axis");
-            // if we're about to go past the destination axis value then just set our axis there.
-            transform.position = new Vector2(destination.position.x, transform.position.y);
-        }
-        if (d == 0)
-        {
-            // we're done but collision should have happened by now anyway...
-            Debug.Log("done moving player");
-            return;
-
-        }
-        Vector2 xtranslation = Vector2.right;
-        if (transform.position.x > destination.position.x)
-        {
-            Debug.Log("Moving left");
-            xtranslation = Vector2.left;
-        }
-        else
-        {
-            Debug.Log("Moving right");
-        }
-
-        transform.Translate(xtranslation * (speed * Time.deltaTime));
-        
+        transform.Translate(Vector3.up * (speed * Time.deltaTime));
     }
 }

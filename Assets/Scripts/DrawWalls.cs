@@ -7,15 +7,6 @@ public class DrawWalls : MonoBehaviour
     public GameObject Wall;
     public float Quantity;
     public float placed = 0;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (PersistentManager.Instance.level < 2)
-        {
-            gameObject.SetActive(false);
-        }
-    }
 
     // Update is called once per frame
     void Update()

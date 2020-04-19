@@ -7,93 +7,51 @@ public class MonsterMove : MonoBehaviour
     public float speed = 1;
     public Transform playerLoc; // gets assigned during spawn
 
-    private bool yLock = false;
-
-    private void Awake()
-    {
-        // pick whether to move horizontally or vertically
-        if (Random.value < 0.5)
-        {
-            yLock = true;
-        }
-    }
-
     void Update()
     {
         if (!PersistentManager.Instance.Running)
         {
             return;
         }
-        if (yLock)
-        {
-            moveY(true);
-        }
-        else
-        {
-            moveX(true);
-        }
+
+        MoveToDestination(playerLoc);
     }
 
 
-    // retry will call moveX if cannot move already in line with playerLoc
-    void moveY(bool retry)
+    public void MoveToDestination(Transform destination)
     {
-        if (transform.position.y != playerLoc.position.y)
-        {
-            // if we're about to go past the playerLoc axis value then just set our axis there.
-            float d = Mathf.Abs(transform.position.y - playerLoc.position.y);
-            if (d < 0.1)
-            {
-                transform.position = new Vector2(transform.position.x,playerLoc.position.y);
-                return;
-            }
+        // figure out where destination is relative to transform on y axis
+        float yDistance = Mathf.Abs(transform.position.y - destination.position.y);
+        float xDistance = Mathf.Abs(transform.position.x - destination.position.x);
 
-            
-            Vector2 translation = Vector2.up;
-            if (transform.position.y > playerLoc.position.y)
+        if (xDistance > yDistance)
+        {
+            // Look at destination along x axis
+            if (transform.position.x < destination.position.x)
             {
-                translation = Vector2.down;
+                Debug.Log("Rotating to look right");
+                transform.up = Vector3.right;
             }
-            transform.Translate(translation * (speed * Time.deltaTime));
+            else
+            {
+                Debug.Log("Rotating to look left");
+                transform.up = Vector3.left;
+            }
         }
         else
         {
-            if (retry)
+            if (transform.position.y < destination.position.y)
             {
-                yLock = false;
-                moveX(false);
+                Debug.Log("Rotating to look up");
+                transform.up = Vector3.up;
+            }
+            else
+            {
+                Debug.Log("Rotating to look down");
+                transform.up = Vector3.down;
             }
         }
-    }
 
-    // retry will call moveY if cannot move already in line with playerLoc
-    void moveX(bool retry)
-    {
-        if (transform.position.x != playerLoc.position.x)
-        {
-            // if we're about to go past the playerLoc axis value then just set our axis there.
-            float d = Mathf.Abs(transform.position.x - playerLoc.position.x);
-            if (d < 0.1)
-            {
-                transform.position = new Vector2(playerLoc.position.x, transform.position.y);
-                return;
-            }
-            
-            Vector2 translation = Vector2.right;
-            if (transform.position.x > playerLoc.position.x)
-            {
-                translation = Vector2.left;
-            }
-
-            transform.Translate(translation * (speed * Time.deltaTime));
-        }
-        else
-        {
-            if (retry)
-            {
-                yLock = true;
-                moveY(false);
-            }
-        }
+        transform.Translate(Vector3.up * (speed * Time.deltaTime));
     }
 }

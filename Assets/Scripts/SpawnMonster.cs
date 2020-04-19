@@ -35,7 +35,6 @@ public class SpawnMonster : MonoBehaviour
         while (amountSpawned < amountToSpawn)
         {
             Vector2 spawnPos = calculatePosition();
-            Debug.Log("Monster " + amountSpawned + "spawning at "+spawnPos);
             GameObject spawnedMonster = Instantiate(monster,spawnPos , Quaternion.identity);
             spawnedMonster.GetComponent<MonsterMove>().playerLoc = player.transform;
             
@@ -50,7 +49,6 @@ public class SpawnMonster : MonoBehaviour
         // This has to be Vector3 otherwise it gets upset...
         Vector3 offset = (Random.insideUnitCircle * spawnDistanceMax);
         Vector2 spawnPosition = player.transform.position + offset;
-        Debug.Log("transform position is "+player.transform.position);
         
         // lock spawn position to inside game boundary
         spawnPosition.x = Mathf.Min(spawnPosition.x, 16);
