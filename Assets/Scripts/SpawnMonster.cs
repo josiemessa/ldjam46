@@ -20,7 +20,6 @@ public class SpawnMonster : MonoBehaviour
     void Start()
     {
         boundary = gameObject.GetComponentInChildren<ScreenLayout>().OuterArea;
-        Debug.Log(boundary);
         InvokeRepeating("Spawn", 0, spawnCooldown);
     }
 

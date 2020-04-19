@@ -12,7 +12,15 @@ public class MonsterMove : MonoBehaviour
     private int elapsedFrames = 0;
     private string direction;
     private Vector3 myPos;
-    private bool ov;
+    private bool ov = false;
+
+    private void Start()
+    {
+        myPos = transform.position;
+        Debug.Log("player pos"+playerLoc.position);
+        Debug.Log("monster pos"+transform.position);
+        SetDirection(playerLoc.position, true);
+    }
 
     void Update()
     {
@@ -24,28 +32,33 @@ public class MonsterMove : MonoBehaviour
 
         if (elapsedFrames > RotationInterval)
         {
-            SetDirection(playerLoc.position);
+            SetDirection(playerLoc.position, false);
             elapsedFrames = 0;
         }
 
         elapsedFrames++;
 
         transform.Translate(Vector3.up * (speed * Time.deltaTime));
+        Debug.Log(direction);
     }
 
-    public void SetDirection(Vector3 destinationPos)
+    public void SetDirection(Vector3 destinationPos, bool init)
     {
         if (ov)
         {
+            Debug.Log("overridden");
             return;
-        }
-            // // figure out where destination is relative to transform on y axis
+        } 
+        // figure out where destination is relative to transform on y axis
         float yDistance = Mathf.Abs(myPos.y - destinationPos.y);
         float xDistance = Mathf.Abs(myPos.x - destinationPos.x);
         
-        if (Mathf.Abs(yDistance - xDistance) < speed)
+        if (Mathf.Abs(yDistance - xDistance) < 1 && !init)
         {
+            Debug.Log("player pos"+destinationPos);
+            Debug.Log("monster pos"+myPos);
             // this causes the monster to start rotating every other frame, so don't recalculate direction
+            Debug.Log("too close");
             return;
         }
 

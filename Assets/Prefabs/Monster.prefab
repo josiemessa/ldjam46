@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4223830465196510407}
   - component: {fileID: 9128904475815793357}
   - component: {fileID: 3735249579499881511}
+  - component: {fileID: 7992707266601169817}
   m_Layer: 0
   m_Name: Monster
   m_TagString: monster
@@ -73,7 +74,8 @@ SpriteRenderer:
   m_SortingLayerID: -1411531851
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4ffc929733192ce4097de453b7a63c29, type: 3}
+  m_Sprite: {fileID: -7355944356354740365, guid: 486e8fd8ede5e7349b21a0d793b3879d,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -96,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d94b5d5bb89b44bb7bde9523002db3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 4
   playerLoc: {fileID: 0}
   RotationInterval: 30
 --- !u!50 &9128904475815793357
@@ -136,3 +138,22 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.05
+--- !u!95 &7992707266601169817
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4223830465196510406}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0b7e0892d98aa5043b34d0b347c98e5f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

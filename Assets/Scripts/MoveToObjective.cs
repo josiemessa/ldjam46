@@ -25,6 +25,8 @@ public class MoveToObjective : MonoBehaviour
             return;
         }
 
+        GetComponent<Animator>().SetTrigger("Move");
+
         Transform destination = objectives[0].transform;
         MoveToDestination(destination);
     }

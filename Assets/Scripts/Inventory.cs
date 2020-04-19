@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
@@ -7,10 +8,10 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public TMP_Text ItemDisplay;
+    public GameObject ItemDisplay;
     public Item Objective;
     public Item Wall;
-    public Item ActiveItem;
+    // public Item ActiveItem;
     public Item[] EnabledItems;
 
     private Rect boundary;
@@ -27,45 +28,60 @@ public class Inventory : MonoBehaviour
             EnabledItems = new[] {Objective, Wall};
         }
 
-        ActiveItem = EnabledItems[0];
+        // ActiveItem = EnabledItems[0];
     }
 
     // Update is called once per frame
     void Update()
     {
-        manageItem();
-        SpawnItem();
+        // manageItem();
+        if (Input.GetButtonDown("Fire1"))
+        {
+            SpawnItem(Objective);
+            updateUI(Objective);
+        }
+
+        if (Input.GetButtonDown("Fire2"))
+        {
+            SpawnItem((Wall));
+            updateUI(Wall);
+        }
+        
     }
 
-    void manageItem()
+    void updateUI(Item item)
     {
-        if (Input.GetKeyDown("1"))
+        int left = item.MaxQuantity - item.Used;
+        item.ItemDisplay.text = String.Format("{0}", left);
+        if (left == 0)
         {
-            ItemDisplay.text = "Item: Objective";
-            ActiveItem = EnabledItems[0];
-        }
-        else
-        {
-            if (Input.GetKeyDown("2") && EnabledItems.Length >= 2)
-            {
-                ItemDisplay.text = "Item: Wall";
-                ActiveItem = EnabledItems[1];
-            }
+            item.ItemDisplay.color = Color.red;
         }
     }
 
-    public void SpawnItem()
+    // void manageItem()
+    // {
+    //     if (Input.GetKeyDown("1"))
+    //     {
+    //         ItemDisplay.text = "Item: Objective";
+    //         ActiveItem = EnabledItems[0];
+    //     }
+    //     else
+    //     {
+    //         if (Input.GetKeyDown("2") && EnabledItems.Length >= 2)
+    //         {
+    //             ItemDisplay.text = "Item: Wall";
+    //             ActiveItem = EnabledItems[1];
+    //         }
+    //     }
+    // }
+
+    public void SpawnItem(Item item)
     {
-        if (ActiveItem.Used >= ActiveItem.MaxQuantity)
+        if (item.Used >= item.MaxQuantity)
         {
             return;
         }
-
-        if (!Input.GetButtonDown("Fire1"))
-        {
-            return;
-        }
-
         // Are you clicking on the game screen
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (!boundary.Contains(worldPosition))
@@ -74,7 +90,7 @@ public class Inventory : MonoBehaviour
             return;
         }
 
-        if (ActiveItem == Objective && innerBoundary.Contains(worldPosition))
+        if (item == Objective && innerBoundary.Contains(worldPosition))
         {
             Debug.Log("can't place objective here");
             return;
@@ -95,7 +111,7 @@ public class Inventory : MonoBehaviour
         worldPosition.x = Mathf.Floor(worldPosition.x);
         worldPosition.y = Mathf.Floor(worldPosition.y);
 
-        Instantiate(ActiveItem.ItemInstance, worldPosition, Quaternion.identity);
-        ActiveItem.Used++;
+        Instantiate(item.ItemInstance, worldPosition, Quaternion.identity);
+        item.Used++;
     }
 }
