@@ -14,7 +14,11 @@ public class PersistentManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject); 
+            // if (SceneManager.GetActiveScene().name == "IntroScene")
+            // {
+            //     return;
+            // }
             SceneManager.sceneLoaded += OnSceneLoaded;
 
             Running = true;
@@ -28,6 +32,10 @@ public class PersistentManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (SceneManager.GetActiveScene().name == "IntroScene")
+        {
+            return;
+        }
         level++;
         Running = true;
         Win = false;
