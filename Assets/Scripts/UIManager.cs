@@ -117,16 +117,15 @@ public class UIManager : MonoBehaviour
 
     private const string FirstTutorialText = @"Player 1 Has Entered The Game
 
-Unfortunately your player isn't the smartest. Lucky for you, an objective is ready for use,  so your player will know where to go. 
+Unfortunately your player isn't the smartest. Lucky for you, an objective is ready for use, so your player will know where to go. 
 You can place the objective on the map by clicking your LEFT MOUSE BUTTON anywhere on the GREEN OUTER BORDER. 
-You only have 1 objective, so choose its location wisely.
-
-And try to avoid the monsters, they bite.";
+You only have 1 objective, so choose its location wisely.";
 
     private const string SecondTutorialText = @"Objective Found!
 
-Despite all the odds, your player made it to the objective without being eaten by monsters. This is going better than expected.
+Despite all the odds, your player made it to the objective!
 But level 2 is next, which means things need to get harder. Thankfully, walls are now ready for use. Place a wall anywhere on the map by clicking RIGHT MOUSE BUTTON.
 You can see how many walls you have left at the top of the screen.
+And try to avoid the monsters, they bite.
 Good luck and godspeed.";
 }

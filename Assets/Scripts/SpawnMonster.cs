@@ -10,11 +10,11 @@ public class SpawnMonster : MonoBehaviour
     public GameObject monster;
     public GameObject player;
     public float spawnCooldown = 1f;
-    public int amountToSpawn = 1;
-    public int maxAmount = 10;
 
     // TODO get this to read from the gameObject rather than the number spawned
     // when player can kill monsters
+    private int amountToSpawn = 1;
+    private int maxAmount = 10;
     private int totalSpawned;
     private float elapsedTime;
     private Rect boundary;
@@ -24,7 +24,20 @@ public class SpawnMonster : MonoBehaviour
         boundary = gameObject.GetComponentInChildren<ScreenLayout>().OuterArea;
 
         // take half a second off the spawn cooldown per level
-        spawnCooldown -= (PersistentManager.Instance.level - 1) / 2f;
+        if (SceneManager.GetActiveScene().name == "MainScene")
+        {
+            spawnCooldown -= (PersistentManager.Instance.level - 1) / 2f;
+            maxAmount = PersistentManager.Instance.level - 1;
+            amountToSpawn = Mathf.Min(PersistentManager.Instance.level - 1, 3);
+        }
+        else
+        {
+            maxAmount = 10;
+            amountToSpawn = 3;
+        }
+
+        
+        
     }
 
     private void Update()
