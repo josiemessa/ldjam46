@@ -12,8 +12,6 @@ public class Inventory : MonoBehaviour
     public GameObject ItemDisplay;
     public Item Objective;
     public Item Wall;
-    // public Item ActiveItem;
-    public Item[] EnabledItems;
 
     private Rect boundary;
     private Rect innerBoundary;
@@ -23,67 +21,59 @@ public class Inventory : MonoBehaviour
     {
         boundary = GameObject.Find("Scripts").GetComponent<ScreenLayout>().OuterArea;
         innerBoundary = GameObject.Find("Scripts").GetComponent<ScreenLayout>().InnerArea;
-        EnabledItems = new[] {Objective};
-        if (PersistentManager.Instance.level >= Wall.LevelThreshold)
+        if (PersistentManager.Instance.level < 2)
         {
-            EnabledItems = new[] {Objective, Wall};
-            Wall.ItemDisplay.gameObject.SetActive(true);
+            Wall.ItemDisplay.SetActive(false);
         }
-
-        // ActiveItem = EnabledItems[0];
+        else
+        {
+            Wall.ItemDisplay.SetActive(true);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!PersistentManager.Instance.Running)
+        if (!PersistentManager.Instance.running)
         {
             return;
         }
+
         // manageItem();
         if (Input.GetButtonDown("Fire1"))
         {
             SpawnItem(Objective);
-            updateUI(Objective);
+            UpdateUI(Objective);
+            return;
         }
 
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Fire2") && PersistentManager.Instance.level>1)
         {
             SpawnItem((Wall));
-            updateUI(Wall);
+            UpdateUI(Wall);
         }
-        
     }
 
-    void updateUI(Item item)
+    private static void UpdateUI(Item item)
     {
-        int left = item.MaxQuantity - item.Used;
-        item.SetText(String.Format("{0}", left), Color.red);
+        var left = item.MaxQuantity - item.Used;
+        if (left == 0)
+        {
+            item.SetText(left.ToString(), Color.red);
+        }
+        else
+        {
+            item.SetText(left.ToString());
+        }
     }
 
-    // void manageItem()
-    // {
-    //     if (Input.GetKeyDown("1"))
-    //     {
-    //         ItemDisplay.text = "Item: Objective";
-    //         ActiveItem = EnabledItems[0];
-    //     }
-    //     else
-    //     {
-    //         if (Input.GetKeyDown("2") && EnabledItems.Length >= 2)
-    //         {
-    //             ItemDisplay.text = "Item: Wall";
-    //             ActiveItem = EnabledItems[1];
-    //         }
-    //     }
-    // }
-
-    public void SpawnItem(Item item)
+    private void SpawnItem(Item item)
     {
         if (item.Used >= item.MaxQuantity)
         {
             return;
         }
+
         // Are you clicking on the game screen
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (!boundary.Contains(worldPosition))

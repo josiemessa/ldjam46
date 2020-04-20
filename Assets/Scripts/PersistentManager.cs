@@ -5,12 +5,12 @@ using UnityEngine.SceneManagement;
 public class PersistentManager : MonoBehaviour
 {
     public static PersistentManager Instance { get; private set; }
-    public bool Running = true;
-    public bool Win;
-    public bool InTutorial = true;
-    public int level = 0;
+    public bool running = true;
+    public bool win;
+    public bool inTutorial = true;
+    public int level;
 
-    private void OnEnable()
+    private void OnEnable() 
     {
         if (Instance == null)
         {
@@ -22,8 +22,8 @@ public class PersistentManager : MonoBehaviour
             // }
             SceneManager.activeSceneChanged += OnSceneChanged;
 
-            Running = false;
-            Win = false;
+            running = false;
+            win = false;
         }
         else
         {
@@ -39,9 +39,9 @@ public class PersistentManager : MonoBehaviour
             return;
         }
         level++;
-        Running = false;
-        Win = false;
-        InTutorial = true;
+        running = false;
+        win = false;
+        inTutorial = true;
     }
 
     public void SetLevel(int newLevel)

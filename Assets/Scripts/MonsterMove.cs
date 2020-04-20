@@ -24,7 +24,7 @@ public class MonsterMove : MonoBehaviour
     void Update()
     {
         myPos = transform.position;
-        if (SceneManager.GetActiveScene().name == "MainScene" && !PersistentManager.Instance.Running)
+        if (SceneManager.GetActiveScene().name == "MainScene" && !PersistentManager.Instance.running)
         {
             return;
         }

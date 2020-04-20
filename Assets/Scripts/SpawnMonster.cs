@@ -29,7 +29,7 @@ public class SpawnMonster : MonoBehaviour
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name == "MainScene" && !PersistentManager.Instance.Running)
+        if (SceneManager.GetActiveScene().name == "MainScene" && !PersistentManager.Instance.running)
         {
             return;
         }

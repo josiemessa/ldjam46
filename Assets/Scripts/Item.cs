@@ -14,8 +14,13 @@ public class Item : MonoBehaviour
     private void Start()
     {
         ItemText = ItemDisplay.GetComponentInChildren<Text>();
+        SetText(MaxQuantity.ToString());
     }
 
+    public void SetText(string t)
+    {
+        ItemText.text = t;
+    }
     public void SetText(string t, Color c)
     {
         ItemText.text = t;

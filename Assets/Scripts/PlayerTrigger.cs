@@ -13,10 +13,10 @@ public class PlayerTrigger : MonoBehaviour
 
         if (other.gameObject.CompareTag("objective"))
         {
-            PersistentManager.Instance.Win = true;
+            PersistentManager.Instance.win = true;
         }
 
-        PersistentManager.Instance.Running = false;
+        PersistentManager.Instance.running = false;
         Debug.Log("finishing");
     }
 }
