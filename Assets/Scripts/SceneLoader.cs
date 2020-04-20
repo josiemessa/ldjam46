@@ -26,5 +26,6 @@ public class SceneLoader : MonoBehaviour
     public void EndTutorial()
     {
         PersistentManager.Instance.Running = true;
+        PersistentManager.Instance.InTutorial = false;
     }
 }

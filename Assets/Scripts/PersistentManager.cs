@@ -7,7 +7,8 @@ public class PersistentManager : MonoBehaviour
     public static PersistentManager Instance { get; private set; }
     public bool Running = true;
     public bool Win;
-    public float level = 1;
+    public bool InTutorial = true;
+    public int level = 0;
 
     private void OnEnable()
     {
@@ -40,9 +41,10 @@ public class PersistentManager : MonoBehaviour
         level++;
         Running = false;
         Win = false;
+        InTutorial = true;
     }
 
-    public void SetLevel(float newLevel)
+    public void SetLevel(int newLevel)
     {
         level = newLevel;
     }
